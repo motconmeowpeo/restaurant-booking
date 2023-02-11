@@ -49,7 +49,7 @@ export default function Navbar() {
                   <a href="#">Home</a>
                 </li>
                 <li>
-                  <a href="#">About</a>
+                  <Link to={"/order"}>Order</Link>
                 </li>
                 <li>
                   <Link to={"/menu"}>Menu</Link>
