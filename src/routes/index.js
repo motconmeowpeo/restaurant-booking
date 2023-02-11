@@ -12,6 +12,11 @@ const HomeRoute = [
         exact:true,
         path:"/menu",
         component:Menu
+    },
+    {
+        exact:true,
+        path:"/order",
+        component:Order
     }
 ]
 const renderRouterHome = () =>{
