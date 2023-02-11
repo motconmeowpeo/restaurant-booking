@@ -4,29 +4,24 @@ import Menu from "../client/pages/Menu";
 const HomeRoute = [
     //Home
     {
-        exact:true,
-        path:"/",
-        component:Home
+        exact: true,
+        path: "/",
+        component: Home
     },
     {
-        exact:true,
-        path:"/menu",
-        component:Menu
+        exact: true,
+        path: "/menu",
+        component: Menu
     },
-    {
-        exact:true,
-        path:"/order",
-        component:Order
-    }
 ]
-const renderRouterHome = () =>{
-    return HomeRoute.map((root,index)=>{
+const renderRouterHome = () => {
+    return HomeRoute.map((root, index) => {
         return <HomeTemplate
-        key={index}
-        exact={root.exact}
-        path={root.path}
-        component={root.component}
+            key={index}
+            exact={root.exact}
+            path={root.path}
+            component={root.component}
         />
     })
 }
-export {renderRouterHome};
+export { renderRouterHome };
