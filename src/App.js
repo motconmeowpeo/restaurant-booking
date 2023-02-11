@@ -1,9 +1,15 @@
-import Order from './client/pages/Order';
-
+import { BrowserRouter, Switch } from "react-router-dom";
+import { renderRouterHome } from './routes';
+import HomeTemplate from './client/pages';
 function App() {
   return (
-    <div className="App">
-      <Order />
+    <div>
+      <BrowserRouter>
+        <Switch>
+          {renderRouterHome()}
+          {/* <HomeTemplate/> */}
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

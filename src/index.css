@@ -14,3 +14,70 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.clear {
+  clear: both;
+}
+
+body,
+html {
+  color           : rgb(22 28 45 / 70%);
+  background-color: #fff;
+  font-family     : 'Quicksand', sans-serif;
+  font-size       : 18px;
+  scroll-behavior : smooth;
+}
+
+.container {
+  width : 90%;
+  margin: auto;
+}
+
+.orangeFontColor {
+  color: #ff6600;
+}
+
+.orangeBgColor {
+  background-color: #ff6600;
+}
+
+.titleFontColor {
+  color: #232121;
+}
+
+.whiteFontColor {
+  color: white;
+}
+
+.title {
+  text-align: center;
+}
+
+.title--left {
+  text-align: left;
+}
+
+.title h6 {
+  font-size     : 20px;
+  font-weight   : 400;
+  line-height   : 30px;
+  letter-spacing: 1px;
+  color         : #ff6600;
+  display       : block;
+  font-family   : 'Pacifico', cursive;
+  margin        : 0;
+  padding       : 0;
+}
+
+.title--white h6 {
+  color: white;
+}
+
+.title h3 {
+  color      : #232121;
+  font-size  : 38px;
+  line-height: 48px;
+  font-weight: 600;
+  margin     : 0;
+  padding    : 0;
+}
