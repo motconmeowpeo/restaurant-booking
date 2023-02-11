@@ -1,0 +1,108 @@
+.order {
+    width           : 100%;
+    height          : 100vh;
+    background-image: url("../../../../public/background/logo192.png");
+    padding         : 50px 0;
+}
+
+.order_container {
+    width    : 100%;
+    max-width: 800px;
+    margin   : 0 auto;
+}
+
+.order_title {
+    margin-top: 2rem;
+    font-size : 1.8rem;
+    color     : #333333;
+}
+
+/* Logo */
+.order_logo svg {
+    width : 142px;
+    height: 32px;
+}
+
+.logo-red {
+    fill: #DA3743;
+}
+
+.logo-primary {
+    fill: #2D333F;
+}
+
+/* content */
+.order_content {
+    background-color: #fff;
+    padding         : 2rem;
+    border-radius   : 5px;
+    margin-top      : 2rem;
+}
+
+.order_step {
+    position: relative;
+    display : flex;
+}
+
+.order_step>span {
+    font-size  : 1.6rem;
+    font-weight: 600;
+    display    : block;
+    padding    : 0 2rem;
+
+    width     : 50%;
+    text-align: center;
+}
+
+.order_step ::before {
+    position        : absolute;
+    content         : '';
+    height          : 2px;
+    width           : 100%;
+    bottom          : 01px;
+    left            : 0;
+    background-color: #cccccc;
+}
+
+.order_step :nth-child(1) {
+    color        : #da3743;
+    cursor       : pointer;
+    border-bottom: 4px solid #da3743;
+}
+
+/* order infomation */
+.order_info {
+    margin-top: 2rem;
+    display   : flex;
+
+}
+
+.order_info>div {
+    width      : 25%;
+    display    : flex;
+    align-items: center;
+    height     : 50px;
+
+}
+
+.order_date {}
+
+.order_info>div>div,
+.order_info>div>select,
+.order_info>div>input {
+    width        : 100%;
+    padding      : 1rem;
+    outline-color: #60b2d0;
+    appearance   : menulist-button;
+    font-size    : 1.3rem;
+    border-radius: 5px;
+    border       : 1px solid #cccccc;
+
+}
+
+.order_info>div>div:hover,
+.order_info>div>select:hover,
+.order_info>div>input:hover {
+    border: 1px solid #333;
+
+}
