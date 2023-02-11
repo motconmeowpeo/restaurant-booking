@@ -1,0 +1,176 @@
+.header{
+    position: absolute;
+    width: 100%;
+}
+.header__content{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-gap: 20px;
+    padding: 40px 15px 20px 15px;
+    align-items: center;
+}
+.header__logo h1 a{
+    font-size: 36px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+
+}
+.header__navbar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    align-items: center;
+}
+.header__search{
+    display: flex;
+}
+.header__search input{
+    padding: 10px 50px 10px 20px;
+    height: 45px;
+    font-size: 16px;
+    color: rgba(22, 28, 45, 0.7);
+    border: none;
+    font-weight: 400;
+    border-radius: 6px;
+    position: relative;
+    right: 0;
+    background: #fff;
+    outline: 0;
+    border: 1px solid #fff;
+}
+.header__search i{
+    position: absolute;
+    right: 20px;
+    font-size: 15px;
+    top: 15px;
+    cursor: pointer;
+}
+.header__mode button{
+    background-color: transparent;
+    border: none;
+    color: #fff;
+}
+.header__mode button .fa-sun{
+    display: none;
+}
+.header__mode button .fa-moon{
+    display: block;
+}
+.mobile-nav-button button{
+    border: none;
+    background-color: transparent;
+}
+.mobile-nav-button button i{
+    font-size: 30px;
+    color: #fff;
+}
+.overlay-scale{
+    transform: scale(1);
+    z-index: 9;
+    animation: openScale 0.4s linear 1;
+}
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgb(6 3 0 / 77%);
+}
+.overlay-close{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    overflow: hidden;
+    border: none;
+    background: #ff6600;
+    color: #fff;
+    border-radius: 6px;
+}
+.overlay nav{
+    text-align: center;
+    position: relative;
+    top: 50%;
+    height: 60%;
+    transform: translateY(-50%);
+}
+.overlay nav ul li a{
+    font-size: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    display: block;
+    color: #fff;
+    transition: color 0.2s;
+    text-decoration: none;
+    padding: 10px;
+}
+.overlay nav ul li a:hover{
+    color: #ff6600;
+}
+.header__bot{
+    margin-top: 100px;
+}
+.dinerBanner{
+    background-size: cover;
+    background-image: linear-gradient(to right, #ff6600, hsl(30deg 100% 1% / 20%)), url("../../../../public/img/banner1.jpg");
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: initial;
+    background-attachment: fixed;
+    min-height: 700px;
+}
+.dinerBanner__content{
+    max-width: 600px;
+}
+.dinerBanner__content h3{
+    font-size: 54px;
+    line-height: 64px;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #fff;
+}
+.dinerBanner__content p{
+    font-size: 16px;
+    line-height: 28px;
+    color: #fff;
+}
+.dinerBanner__content a{
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid #fff;
+    background: transparent;
+    padding: 12px 45px;
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 700;
+    transition: 0.3s ease-in;
+    border-radius: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+.dinerBanner__content a:hover{
+    background-color: #fff;
+    color: #ff6600;
+}
+@keyframes openScale {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+@keyframes closeScale {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
