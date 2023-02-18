@@ -1,7 +1,114 @@
+import { faCalendar, faCheck, faClock, faL, faLocation, faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import "./Order.css"
+var curr = new Date();
+curr.setDate(curr.getDate());
+var dateStr = curr.toISOString().substring(0, 10);
+var minDate = new Date();
+minDate.setDate(minDate.getDate() + 1);
+var min = minDate.toISOString().substring(0, 10);
 
+
+const dataFood = [
+    {
+        id: 1,
+        title: "CHILLED CORN CHOWDER",
+        price: "10000",
+        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+    },
+    {
+        id: 2,
+        title: "CHILLED CORN CHOWDER",
+        price: "10000",
+        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+    },
+    {
+        id: 3,
+        title: "CHILLED CORN CHOWDER",
+        price: "10000",
+        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+    },
+    {
+        id: 4,
+        title: "CHILLED CORN CHOWDER",
+        price: "10000",
+        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+    },
+]
+const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+const nameRegex = /^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$/
 function Order() {
+    const handleValidateName = (e) => {
+        const name = e.target.value;
+        if (name.length === 0) {
+            setMessageName("Name is required")
+            return false
+        }
+        else {
+            if (nameRegex.test(name) === false) {
+                setMessageName("Name must be letter")
+                return false;
+            }
+            else {
+                setMessageName("")
+                return true
+            }
+        }
+    }
+    const handleValidatePhone = (e) => {
+        const name = e.target.value;
+
+        if (name.length === 0) {
+            setMessagePhone("Phone number is required")
+            return false
+        }
+        else {
+            setMessagePhone("")
+            return true
+        }
+    }
+    const handleValidateMail = (e) => {
+        const name = e.target.value;
+
+        if (name.length === 0) {
+            setMessageEmail("Email is required")
+            return false
+        }
+        else {
+            if (emailRegex.test(name) === false) {
+                setMessageEmail("Email is wrong")
+                return false
+            }
+            else {
+                setMessageEmail("")
+                return true
+            }
+        }
+
+
+    }
+    const [messageName, setMessageName] = useState("")
+    const [messageEmail, setMessageEmail] = useState("")
+    const [messagePhone, setMessagePhone] = useState("")
+    const [foodNext, setFoodNext] = useState(0);
+    const [showFood, setShowFood] = useState(false)
+    const [step, setStep] = useState(true)
+
+    const [date, setDate] = useState(dateStr)
+    const [people, setPeople] = useState("1 person")
+    const [time, setTime] = useState("7:00")
+    const [checkPhone, setCheckPhone] = useState(false)
+    const [checkMail, setCheckMail] = useState(false)
+
+    const [checkName, setCheckName] = useState(false)
+
+
     return (<div className="order">
         <div className="order_container">
             <Link to="/" className="order_logo">
@@ -29,7 +136,7 @@ function Order() {
                 </svg>
             </Link>
             <h5 className="order_title">Reservation at Restaurant Booking - Akron</h5>
-            <div className="order_content">
+            <div style={step ? { display: "block" } : { display: "none" }} className="order_content">
                 <div className="order_step">
                     <span>1.Choose Your Time</span>
                     <span>2.Your Detail</span>
@@ -37,8 +144,8 @@ function Order() {
                 </div>
                 <div className="order_info">
                     <div className="order_people">
-                        <select>
-                            <option >1 persion</option>
+                        <select onChange={(e) => setPeople(e.target.value)}>
+                            <option >1 person</option>
                             <option >2 people</option>
                             <option >3 people</option>
                             <option >4 people</option>
@@ -57,10 +164,10 @@ function Order() {
                         </select>
                     </div>
                     <div className="order_date">
-                        <input type="date" />
+                        <input onChange={(e) => setDate(e.target.value)} type="date" defaultValue={dateStr} min={min} />
                     </div>
                     <div className="order_time">
-                        <select>
+                        <select onChange={(e) => setTime(e.target.value)}>
                             <option>7:00</option>
                             <option>8:00</option>
                             <option>9:00</option>
@@ -81,12 +188,135 @@ function Order() {
                         </select>
                     </div>
                     <div className="order_button">
-                        Choose Your Food
+                        <button onClick={() => setShowFood(true)}>Choose Food</button>
                     </div>
                 </div>
+                <div style={showFood ? { display: "flex" } : { display: "none" }} className="order_food">
+                    <ul style={foodNext === 0 ? { display: "flex" } : { display: "none" }} className="appetizer_list">
+                        {dataFood.map((item, index) => {
+                            return (
+                                <li key={index} className="food_item">
+                                    <img src={item.img} />
+                                    <div className="item_info">
+                                        <h6>{item.title}</h6>
+                                        <span>{item.des}</span>
+                                        <span>${item.price}.00</span>
+                                    </div>
+                                    <label className="food_check">
+                                        <input key={index} type="checkbox" />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </li>
+                            )
+                        })}
+                        <button onClick={() => setFoodNext(1)} className="btn_next">Next</button>
+                    </ul>
+                    <ul style={foodNext === 1 ? { display: "flex" } : { display: "none" }} className="main_list">
+                        {dataFood.map((item, index) => {
+                            return (
+                                <li key={index} className="food_item">
+                                    <img src={item.img} />
+                                    <div className="item_info">
+                                        <h6>{item.title}11</h6>
+                                        <span>{item.des}</span>
+                                        <span>${item.price}.00</span>
+                                    </div>
+                                    <label className="food_check">
+                                        <input key={index} type="checkbox" />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </li>
+                            )
+                        })}
+                        <button onClick={() => setFoodNext(0)} className="btn_prev">Prev</button>
+                        <button onClick={() => setFoodNext(2)} className="btn_next">Next</button>
+                    </ul>
+                    <ul style={foodNext === 2 ? { display: "flex" } : { display: "none" }} className="desserts_list">
+                        {dataFood.map((item, index) => {
+                            return (
+                                <li key={index} className="food_item">
+                                    <img src={item.img} />
+                                    <div className="item_info">
+                                        <h6>{item.title}22</h6>
+                                        <span>{item.des}</span>
+                                        <span>${item.price}.00</span>
+                                    </div>
+                                    <label className="food_check">
+                                        <input key={index} type="checkbox" />
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </li>
+                            )
+                        })}
+                        <button onClick={() => setFoodNext(1)} className="btn_prev">Prev</button>
+
+                        <button onClick={() => setStep(false)} className="btn_next">Finish</button>
+                    </ul>
+                </div>
+
+            </div>
+            <div style={step ? { display: "none" } : { display: "block" }} className="order_content">
+                <div className="detail_step">
+                    <span onClick={() => setStep(true)}>
+                        <FontAwesomeIcon icon={faCheck} />
+                        1.Choose Your Time</span>
+                    <span>
+                        2.Your Detail</span>
+                </div>
+                <div className="detail_content">
+                    <div className="detail_input">
+                        <input type="text" placeholder="Fullname" onBlur={(e) => {
+                            const result = handleValidateName(e)
+                            setCheckName(result)
+                        }
+                        } pattern="^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$" />
+                        <span className="message">{messageName}</span>
+
+                        <input type="number" onBlur={(e) => {
+                            const result = handleValidatePhone(e)
+                            setCheckPhone(result)
+                        }} placeholder="Phone number" />
+                        <span className="message">{messagePhone}</span>
+                        <input type="email" onBlur={(e) => {
+                            const result = handleValidateMail(e)
+                            setCheckMail(result)
+                        }} placeholder="Email" />
+                        <span className="message">{messageEmail}</span>
+                        <button
+                            style={!checkMail || !checkName || !checkPhone ? { cursor: "no-drop" } : { backgroundColor: "#ff6600", color: "#FFF", cursor: "pointer" }}
+                            className="detail_confirm">
+                            Confirm
+                        </button>
+                    </div>
+                    <div className="detail_info">
+                        <div className="info_title">
+                            Spaghetti Warehouse - Akron
+                        </div>
+                        <div className="info_date">
+                            <FontAwesomeIcon icon={faCalendar} />
+                            <span>{date}</span>
+                        </div>
+                        <div className="info_people">
+                            <FontAwesomeIcon icon={faUser} />
+                            <span>{people}</span>
+                        </div>
+                        <div className="info_time">
+                            <FontAwesomeIcon icon={faClock} />
+                            <span>{time}</span>
+                        </div>
+                        <div className="info_location">
+                            <FontAwesomeIcon icon={faLocationDot} />
+                            <span>510 S. Main St. Akron, OH, 44311</span>
+                        </div>
+                        <button className="info_menu">Your Food</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
-    </div >)
+
+    </div>
+    )
 }
 export default Order

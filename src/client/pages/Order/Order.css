@@ -1,6 +1,6 @@
 .order {
     width           : 100%;
-    height          : 100vh;
+    min-height      : 100vh;
     background-image: url("../../../../public/background/logo192.png");
     padding         : 50px 0;
 }
@@ -24,7 +24,7 @@
 }
 
 .logo-red {
-    fill: #DA3743;
+    fill: #ff6600;
 }
 
 .logo-primary {
@@ -49,9 +49,8 @@
     font-weight: 600;
     display    : block;
     padding    : 0 2rem;
-
-    width     : 50%;
-    text-align: center;
+    width      : 50%;
+    text-align : center;
 }
 
 .order_step ::before {
@@ -65,9 +64,13 @@
 }
 
 .order_step :nth-child(1) {
-    color        : #da3743;
-    cursor       : pointer;
-    border-bottom: 4px solid #da3743;
+    color: #ff6600;
+
+    border-bottom: 4px solid #ff6600;
+}
+
+.order_step :nth-child(2) {
+    cursor: no-drop;
 }
 
 /* order infomation */
@@ -81,22 +84,27 @@
     width      : 25%;
     display    : flex;
     align-items: center;
-    height     : 50px;
+    height     : 60px;
+    margin-left: 1rem;
 
 }
 
-.order_date {}
+
 
 .order_info>div>div,
 .order_info>div>select,
 .order_info>div>input {
-    width        : 100%;
-    padding      : 1rem;
-    outline-color: #60b2d0;
-    appearance   : menulist-button;
-    font-size    : 1.3rem;
-    border-radius: 5px;
-    border       : 1px solid #cccccc;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    width          : 100%;
+    height         : 100%;
+    padding        : 1rem;
+    outline-color  : #60b2d0;
+    font-size      : 1rem;
+    border-radius  : 5px;
+    border         : 1px solid #cccccc;
+    cursor         : pointer;
 
 }
 
@@ -105,4 +113,371 @@
 .order_info>div>input:hover {
     border: 1px solid #333;
 
+}
+
+.order_date>input {
+    padding  : 0;
+    margin   : 0;
+    overflow : hidden;
+    font-size: 1rem !important;
+    padding  : .9rem !important;
+}
+
+.order_button>button {
+    background-color: #ff6600;
+    font-size       : 1rem;
+    height          : 100%;
+    border          : none;
+    min-width       : 8rem;
+    border-radius   : .2rem;
+    font-weight     : 600;
+    color           : #fff;
+    transition      : all .3s;
+}
+
+.order_button>button:hover {
+    background-color: #f17929;
+
+}
+
+.order_food {
+    display: flex;
+}
+
+.appetizer_list {
+    list-style: none;
+    display   : flex;
+    flex-wrap : wrap;
+    margin-top: 3rem;
+    position  : relative;
+    transition: all .3s;
+    animation : appetizer .3s ease-in 1;
+}
+
+.appetizer_list::before {
+    content         : "";
+    position        : absolute;
+    height          : 1px;
+    width           : 100%;
+    background-color: #d8d9db;
+    top             : -1.5rem;
+    left            : 0;
+}
+
+@keyframes appetizer {
+    from {
+        transform: translateX(100px);
+        opacity  : 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity  : 1;
+    }
+}
+
+.main_list {
+    list-style: none;
+    display   : flex;
+    flex-wrap : wrap;
+    margin-top: 3rem;
+    position  : relative;
+    transition: all .3s;
+    animation : appetizer .3s ease-in 1;
+
+
+}
+
+.main_list::before {
+    content         : "";
+    position        : absolute;
+    height          : 1px;
+    width           : 100%;
+    background-color: #d8d9db;
+    top             : -1.5rem;
+    left            : 0;
+
+}
+
+
+
+.desserts_list {
+    list-style: none;
+    display   : flex;
+    flex-wrap : wrap;
+    margin-top: 3rem;
+    position  : relative;
+    transition: all .3s;
+    animation : appetizer .3s ease-in 1;
+
+}
+
+.desserts_list::before {
+    content         : "";
+    position        : absolute;
+    height          : 1px;
+    width           : 100%;
+    background-color: #d8d9db;
+    top             : -1.5rem;
+    left            : 0;
+}
+
+.food_item {
+    width  : 50%;
+    display: flex;
+    padding: 1rem .5rem 1rem 0;
+}
+
+
+
+.food_item>img {
+    height    : 100%;
+    min-width : 150px;
+    object-fit: cover;
+}
+
+.item_info {
+    display       : flex;
+    flex-direction: column;
+
+    margin-left: .5rem;
+}
+
+.food_check {
+    display            : flex;
+    align-self         : center;
+    justify-content    : center;
+    position           : relative;
+    padding-left       : 35px;
+    margin-bottom      : 12px;
+    cursor             : pointer;
+    font-size          : 22px;
+    -webkit-user-select: none;
+    -moz-user-select   : none;
+    -ms-user-select    : none;
+    user-select        : none;
+
+}
+
+/* Hide the browser's default checkbox */
+.food_check input {
+    position: absolute;
+    opacity : 0;
+    cursor  : pointer;
+    height  : 0;
+    width   : 0;
+
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position        : absolute;
+    top             : 0;
+    left            : 0;
+    height          : 25px;
+    width           : 25px;
+    background-color: #eee;
+    border          : 1px solid #ff6600;
+}
+
+/* On mouse-over, add a grey background color */
+.food_check:hover input~.checkmark {
+    background-color: #ff6600;
+}
+
+/* When the checkbox is checked, add a blue background */
+.food_check input:checked~.checkmark {
+    background-color: #f17929;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content : "";
+    position: absolute;
+    display : none;
+}
+
+/* Show the checkmark when checked */
+.food_check input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.food_check .checkmark:after {
+    left             : 9px;
+    top              : 5px;
+    width            : 5px;
+    height           : 10px;
+    border           : solid white;
+    border-width     : 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform    : rotate(45deg);
+    transform        : rotate(45deg);
+}
+
+.btn_next {
+    position        : absolute;
+    bottom          : -2rem;
+    right           : 0;
+    height          : 45px;
+    min-width       : 85px;
+    border          : none;
+    background-color: #ff6600;
+    border-radius   : 2px;
+    cursor          : pointer;
+    transition      : all .3s;
+    color           : #fff;
+    font-weight     : 600;
+}
+
+.btn_next:hover {
+    background-color: #f17929;
+
+}
+
+.btn_prev {
+    position        : absolute;
+    bottom          : -2rem;
+    left            : 0;
+    height          : 45px;
+    min-width       : 85px;
+    border          : none;
+    background-color: #ff6600;
+    border-radius   : 2px;
+    cursor          : pointer;
+    transition      : all .3s;
+    color           : #fff;
+    font-weight     : 600;
+}
+
+.btn_prev:hover {
+    background-color: #f17929;
+
+}
+
+.detail_step {
+    position: relative;
+    display : flex;
+
+}
+
+.detail_step>span {
+    font-size  : 1.6rem;
+    font-weight: 600;
+    display    : block;
+    padding    : 0 2rem;
+    width      : 50%;
+    text-align : center;
+}
+
+.detail_step ::before {
+    position        : absolute;
+    content         : '';
+    height          : 2px;
+    width           : 100%;
+    bottom          : 01px;
+    left            : 0;
+    background-color: #cccccc;
+}
+
+.detail_step :nth-child(1) {
+    cursor: pointer;
+}
+
+.detail_step :nth-child(2) {
+    color: #ff6600;
+
+    border-bottom: 4px solid #ff6600;
+}
+
+.detail_input {
+    display       : flex;
+    flex-direction: column;
+    width         : 50%;
+
+}
+
+.detail_input>input {
+    padding      : .5rem 1rem;
+    margin-top   : 2rem;
+    border-radius: 5px;
+    outline-color: rgb(96, 178, 208);
+}
+
+.detail_input>input:invalid {
+    border: 2px solid red;
+}
+
+.message {
+    font-size: .8rem;
+    color    : red;
+}
+
+.detail_content {
+    display: flex;
+
+}
+
+.detail_input {
+    width  : 50%;
+    padding: 1rem;
+}
+
+.detail_info {
+    width     : 50%;
+    margin-top: 2rem;
+    padding   : .5rem 1rem;
+}
+
+.detail_confirm {
+
+    height       : 45px;
+    width        : calc(100%);
+    border-radius: 5px;
+    border       : none;
+    cursor       : default;
+    font-size    : 1.3rem;
+    font-weight  : 600;
+    margin-top   : 2.6rem;
+}
+
+
+.info_menu {
+    height          : 45px;
+    width           : 100%;
+    border-radius   : 5px;
+    border          : none;
+    margin-left     : 1rem;
+    cursor          : pointer;
+    font-size       : 1.3rem;
+    font-weight     : 600;
+    margin-top      : 2rem;
+    background-color: #ff6600;
+    color           : #fff;
+}
+
+.info_menu:hover {
+    opacity: .8;
+}
+
+.info_title {
+    font-size  : 1.6rem;
+    font-weight: bold;
+}
+
+.info_date>svg,
+.info_people>svg,
+.info_time>svg,
+.info_location>svg {
+    font-size   : 1.4rem;
+    margin-right: 1rem;
+    margin-top  : .5rem;
+}
+
+.info_date>span,
+.info_people>span,
+.info_time>span,
+.info_location>span {
+    font-size : 1rem;
+    text-align: start;
 }
