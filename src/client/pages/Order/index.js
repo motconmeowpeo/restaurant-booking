@@ -1,7 +1,9 @@
 import { faCalendar, faCheck, faClock, faL, faLocation, faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { getProduct } from "../../reducer/product/productSlice";
 import "./Order.css"
 var curr = new Date();
 curr.setDate(curr.getDate());
@@ -11,39 +13,45 @@ minDate.setDate(minDate.getDate() + 1);
 var min = minDate.toISOString().substring(0, 10);
 
 
-const dataFood = [
-    {
-        id: 1,
-        title: "CHILLED CORN CHOWDER",
-        price: "10000",
-        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-    },
-    {
-        id: 2,
-        title: "CHILLED CORN CHOWDER",
-        price: "10000",
-        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-    },
-    {
-        id: 3,
-        title: "CHILLED CORN CHOWDER",
-        price: "10000",
-        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-    },
-    {
-        id: 4,
-        title: "CHILLED CORN CHOWDER",
-        price: "10000",
-        img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-        des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-    },
-]
+// const dataFood = [
+//     {
+//         id: 1,
+//         title: "CHILLED CORN CHOWDER",
+//         price: "10000",
+//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+//     },
+//     {
+//         id: 2,
+//         title: "CHILLED CORN CHOWDER",
+//         price: "10000",
+//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+//     },
+//     {
+//         id: 3,
+//         title: "CHILLED CORN CHOWDER",
+//         price: "10000",
+//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+//     },
+//     {
+//         id: 4,
+//         title: "CHILLED CORN CHOWDER",
+//         price: "10000",
+//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
+//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
+//     },
+// ]
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 const nameRegex = /^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$/
 function Order() {
+    const dispatch = useDispatch()
+    const dataFood = useSelector((state) => state.product)
+    useEffect(() => {
+        dispatch(getProduct())
+    }, [])
+
     const handleValidateName = (e) => {
         const name = e.target.value;
         if (name.length === 0) {
@@ -93,6 +101,10 @@ function Order() {
 
 
     }
+    const handleAddOrder = (item) => {
+
+    }
+
     const [messageName, setMessageName] = useState("")
     const [messageEmail, setMessageEmail] = useState("")
     const [messagePhone, setMessagePhone] = useState("")
@@ -107,7 +119,16 @@ function Order() {
     const [checkMail, setCheckMail] = useState(false)
 
     const [checkName, setCheckName] = useState(false)
+    const [itemOrder, setItemOrder] = useState([]);
+    const handelItem = (item) => {
 
+        const newArr = [...itemOrder];
+        const index = newArr.indexOf(item);
+        if (index < 0) {
+            newArr.push(item)
+            setItemOrder(newArr)
+        }
+    }
 
     return (<div className="order">
         <div className="order_container">
@@ -193,62 +214,87 @@ function Order() {
                 </div>
                 <div style={showFood ? { display: "flex" } : { display: "none" }} className="order_food">
                     <ul style={foodNext === 0 ? { display: "flex" } : { display: "none" }} className="appetizer_list">
-                        {dataFood.map((item, index) => {
-                            return (
-                                <li key={index} className="food_item">
-                                    <img src={item.img} />
-                                    <div className="item_info">
-                                        <h6>{item.title}</h6>
-                                        <span>{item.des}</span>
-                                        <span>${item.price}.00</span>
-                                    </div>
-                                    <label className="food_check">
-                                        <input key={index} type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </li>
-                            )
+                        {dataFood.data.map((item, index) => {
+                            if (item.type.type === "FOOD")
+                                return (
+                                    <li key={index} className="food_item">
+                                        <img src={item.img} />
+                                        <div className="item_info">
+                                            <h6>{item.name}</h6>
+                                            <span>{item.desc}</span>
+                                            <span>${item.price}</span>
+                                        </div>
+                                        <label onChange={() => { handelItem(item) }} className="food_check">
+                                            <input key={index} type="checkbox" />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </li>
+                                )
                         })}
                         <button onClick={() => setFoodNext(1)} className="btn_next">Next</button>
                     </ul>
                     <ul style={foodNext === 1 ? { display: "flex" } : { display: "none" }} className="main_list">
-                        {dataFood.map((item, index) => {
-                            return (
-                                <li key={index} className="food_item">
-                                    <img src={item.img} />
-                                    <div className="item_info">
-                                        <h6>{item.title}11</h6>
-                                        <span>{item.des}</span>
-                                        <span>${item.price}.00</span>
-                                    </div>
-                                    <label className="food_check">
-                                        <input key={index} type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </li>
-                            )
+                        {dataFood.data.map((item, index) => {
+                            if (item.type.type === "CHEF")
+                                return (
+                                    <li key={index} className="food_item">
+                                        <img src={item.img} />
+                                        <div className="item_info">
+                                            <h6>{item.name}</h6>
+                                            <span>{item.desc}</span>
+                                            <span>${item.price}</span>
+                                        </div>
+                                        <label className="food_check">
+                                            <input key={index} type="checkbox" />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </li>
+                                )
                         })}
                         <button onClick={() => setFoodNext(0)} className="btn_prev">Prev</button>
                         <button onClick={() => setFoodNext(2)} className="btn_next">Next</button>
                     </ul>
                     <ul style={foodNext === 2 ? { display: "flex" } : { display: "none" }} className="desserts_list">
-                        {dataFood.map((item, index) => {
-                            return (
-                                <li key={index} className="food_item">
-                                    <img src={item.img} />
-                                    <div className="item_info">
-                                        <h6>{item.title}22</h6>
-                                        <span>{item.des}</span>
-                                        <span>${item.price}.00</span>
-                                    </div>
-                                    <label className="food_check">
-                                        <input key={index} type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </li>
-                            )
+                        {dataFood.data.map((item, index) => {
+                            if (item.type.type === "DRINK")
+                                return (
+                                    <li key={index} className="food_item">
+                                        <img src={item.img} />
+                                        <div className="item_info">
+                                            <h6>{item.name}</h6>
+                                            <span>{item.desc}</span>
+                                            <span>${item.price}</span>
+                                        </div>
+                                        <label onChange={() => { handelItem(item) }} className="food_check">
+                                            <input key={index} type="checkbox" />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </li>
+                                )
                         })}
                         <button onClick={() => setFoodNext(1)} className="btn_prev">Prev</button>
+
+                        <button onClick={() => setFoodNext(3)} className="btn_next">Next</button>
+                    </ul>
+                    <ul style={foodNext === 3 ? { display: "flex" } : { display: "none" }} className="desserts_list">
+                        {dataFood.data.map((item, index) => {
+                            if (item.type.type === "COCKTAIL")
+                                return (
+                                    <li key={index} className="food_item">
+                                        <img src={item.img} />
+                                        <div className="item_info">
+                                            <h6>{item.name}</h6>
+                                            <span>{item.desc}</span>
+                                            <span>${item.price}</span>
+                                        </div>
+                                        <label onChange={() => { handelItem(item) }} className="food_check">
+                                            <input key={index} type="checkbox" />
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    </li>
+                                )
+                        })}
+                        <button onClick={() => setFoodNext(2)} className="btn_prev">Prev</button>
 
                         <button onClick={() => setStep(false)} className="btn_next">Finish</button>
                     </ul>
