@@ -13,7 +13,7 @@ export default function Navbar() {
        <div className="header__content container">
           <div className="header__logo">
             <h1 className="m-0">
-              <a href="#">Diner</a>
+              <Link to={"/"}>Diner</Link>
             </h1>
           </div>
           <div className="header__navbar">
@@ -46,7 +46,7 @@ export default function Navbar() {
             <nav>
               <ul>
                 <li>
-                  <a href="#">Home</a>
+                  <Link to={"/"}>Home</Link>
                 </li>
                 <li>
                   <Link to={"/order"}>Order</Link>
