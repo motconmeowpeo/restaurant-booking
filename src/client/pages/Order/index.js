@@ -1,8 +1,11 @@
-import { faCalendar, faCheck, faClock, faL, faLocation, faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faCheck, faClock, faL, faLocation, faLocationDot, faSquare, faSquareXmark, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { async } from "q";
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import Swal from "sweetalert2";
+
 import { getProduct } from "../../reducer/product/productSlice";
 import "./Order.css"
 var curr = new Date();
@@ -11,38 +14,6 @@ var dateStr = curr.toISOString().substring(0, 10);
 var minDate = new Date();
 minDate.setDate(minDate.getDate() + 1);
 var min = minDate.toISOString().substring(0, 10);
-
-
-// const dataFood = [
-//     {
-//         id: 1,
-//         title: "CHILLED CORN CHOWDER",
-//         price: "10000",
-//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-//     },
-//     {
-//         id: 2,
-//         title: "CHILLED CORN CHOWDER",
-//         price: "10000",
-//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-//     },
-//     {
-//         id: 3,
-//         title: "CHILLED CORN CHOWDER",
-//         price: "10000",
-//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-//     },
-//     {
-//         id: 4,
-//         title: "CHILLED CORN CHOWDER",
-//         price: "10000",
-//         img: "https://resca.thimpress.com/wp-content/uploads/2015/04/img_blog_post_7-150x150.jpg",
-//         des: "Cornmeal fried oyster, caviar, basil oil and corn nuts"
-//     },
-// ]
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 const nameRegex = /^([a-zA-Z0-9]+|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{1,}|[a-zA-Z0-9]+\s{1}[a-zA-Z0-9]{3,}\s{1}[a-zA-Z0-9]{1,})$/
 function Order() {
@@ -101,15 +72,18 @@ function Order() {
 
 
     }
-    const handleAddOrder = (item) => {
+    const handleShowItem = () => {
+
 
     }
+
 
     const [messageName, setMessageName] = useState("")
     const [messageEmail, setMessageEmail] = useState("")
     const [messagePhone, setMessagePhone] = useState("")
     const [foodNext, setFoodNext] = useState(0);
     const [showFood, setShowFood] = useState(false)
+    const [showItemOr, setShowItemOr] = useState(false)
     const [step, setStep] = useState(true)
 
     const [date, setDate] = useState(dateStr)
@@ -127,7 +101,15 @@ function Order() {
         if (index < 0) {
             newArr.push(item)
             setItemOrder(newArr)
+
         }
+        else {
+            newArr.pop(item)
+            setItemOrder(newArr)
+        }
+        const arrStr = JSON.stringify(newArr)
+        localStorage.setItem("item_order", arrStr)
+
     }
 
     return (<div className="order">
@@ -217,7 +199,7 @@ function Order() {
                         {dataFood.data.map((item, index) => {
                             if (item.type.type === "FOOD")
                                 return (
-                                    <li key={index} className="food_item">
+                                    <li key={item._id} className="food_item">
                                         <img src={item.img} />
                                         <div className="item_info">
                                             <h6>{item.name}</h6>
@@ -225,7 +207,7 @@ function Order() {
                                             <span>${item.price}</span>
                                         </div>
                                         <label onChange={() => { handelItem(item) }} className="food_check">
-                                            <input key={index} type="checkbox" />
+                                            <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
                                     </li>
@@ -237,15 +219,15 @@ function Order() {
                         {dataFood.data.map((item, index) => {
                             if (item.type.type === "CHEF")
                                 return (
-                                    <li key={index} className="food_item">
+                                    <li key={item._id} className="food_item">
                                         <img src={item.img} />
                                         <div className="item_info">
                                             <h6>{item.name}</h6>
                                             <span>{item.desc}</span>
                                             <span>${item.price}</span>
                                         </div>
-                                        <label className="food_check">
-                                            <input key={index} type="checkbox" />
+                                        <label onChange={() => { handelItem(item) }} className="food_check">
+                                            <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
                                     </li>
@@ -258,7 +240,7 @@ function Order() {
                         {dataFood.data.map((item, index) => {
                             if (item.type.type === "DRINK")
                                 return (
-                                    <li key={index} className="food_item">
+                                    <li key={item._id} className="food_item">
                                         <img src={item.img} />
                                         <div className="item_info">
                                             <h6>{item.name}</h6>
@@ -266,7 +248,7 @@ function Order() {
                                             <span>${item.price}</span>
                                         </div>
                                         <label onChange={() => { handelItem(item) }} className="food_check">
-                                            <input key={index} type="checkbox" />
+                                            <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
                                     </li>
@@ -280,7 +262,7 @@ function Order() {
                         {dataFood.data.map((item, index) => {
                             if (item.type.type === "COCKTAIL")
                                 return (
-                                    <li key={index} className="food_item">
+                                    <li key={item._id} className="food_item">
                                         <img src={item.img} />
                                         <div className="item_info">
                                             <h6>{item.name}</h6>
@@ -288,7 +270,7 @@ function Order() {
                                             <span>${item.price}</span>
                                         </div>
                                         <label onChange={() => { handelItem(item) }} className="food_check">
-                                            <input key={index} type="checkbox" />
+                                            <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
                                     </li>
@@ -328,8 +310,17 @@ function Order() {
                             setCheckMail(result)
                         }} placeholder="Email" />
                         <span className="message">{messageEmail}</span>
-                        <button
+                        <button onClick={async () => {
+                            await Swal.fire({
+                                icon: 'success',
+                                title: 'Your work has been saved',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            window.location.replace("/")
+                        }}
                             style={!checkMail || !checkName || !checkPhone ? { cursor: "no-drop" } : { backgroundColor: "#ff6600", color: "#FFF", cursor: "pointer" }}
+                            disabled={!checkMail || !checkName || !checkPhone ? true : false}
                             className="detail_confirm">
                             Confirm
                         </button>
@@ -354,15 +345,40 @@ function Order() {
                             <FontAwesomeIcon icon={faLocationDot} />
                             <span>510 S. Main St. Akron, OH, 44311</span>
                         </div>
-                        <button className="info_menu">Your Food</button>
+                        <button onClick={() => { setShowItemOr(true) }} className="info_menu">Your Food</button>
+
                     </div>
                 </div>
+                <div style={showItemOr ? { display: "block" } : { display: "none" }} className="item_order">
+                    <div className="item_overlay" onClick={() => { setShowItemOr(false) }}></div>
+                    <div className="item_content">
+                        <ul className="content_list">
+                            {
+                                itemOrder.map((item, index) => {
+                                    return (
+                                        <li key={index} className="content_item">
+                                            <img src={item.img} />
+                                            <div className="item_info">
+                                                <h6>{item.name}</h6>
+                                                <span>{item.desc}</span>
+                                                <span>${item.price}</span>
+                                            </div>
 
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                        <span onClick={() => { setShowItemOr(false) }} className="close">
+                            <FontAwesomeIcon icon={faSquareXmark} />
+                        </span>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-    </div>
+    </div >
     )
 }
 export default Order
