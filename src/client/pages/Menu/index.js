@@ -259,9 +259,9 @@ export default function Menu() {
           </div>
         </div>
 
-        <div className="launch-content py-5">
-          <div className="launch-bg">
-                    LAUNCH
+        <div className="lunch-content py-5">
+          <div className="lunch-bg">
+                    LUNCH
           </div>
           <div className="row container">
             <div className="col-6">
