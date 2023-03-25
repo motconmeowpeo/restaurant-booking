@@ -62,7 +62,10 @@
     left            : 0;
     background-color: #cccccc;
 }
-
+.input_quatity{
+    height: 20px;
+    width: 40px;
+}
 .order_step :nth-child(1) {
     color: #ff6600;
 
