@@ -1,8 +1,7 @@
-import {React,useEffect} from "react";
+import {React,useEffect, useRef, useState} from "react";
 import "./style.css";
 import {useDispatch,useSelector} from "react-redux"
 import {getProduct} from "../../reducer/product/productSlice"
-import { Item } from "rc-menu";
 export default function Menu() {
   const dispatch = useDispatch();
    const data = useSelector((state)=>state.product)
@@ -10,35 +9,32 @@ export default function Menu() {
       dispatch(getProduct());
    },[])
   const renderFood = () =>{
-    let count = 0;
     return data?.data.map((item)=>{
-    if(item.type.type === "FOOD" && count<=4){
-      count++;
-      return(<div className="py-3">
-      {" "}
-      <h6>
-        <span
-          style={{
-            backgroundColor: "#fff",
-            position: "relative",
-            zIndex: "9",
-          }}
-        >
+    if(item.type.type === "FOOD"){
+      return(
+        <><div className="py-3">
           {" "}
-          {item.name}
-        </span>
-        <span className="dotted"></span>
-      </h6>
-      {item.desc}
-    </div>)
+          <h6>
+            <span
+              style={{
+                backgroundColor: "#fff",
+                position: "relative",
+                zIndex: "9",
+              }}
+            >
+              {" "}
+              {item.name}
+            </span>
+            <span className="dotted"></span>
+          </h6>
+          {item.desc}
+        </div></>)
     }
     })
   }
   const renderDrink = () =>{
-    let count = 0;
     return data?.data.map((item)=>{
-    if(item.type.type === "DRINK" && count<=4){
-      count++;
+    if(item.type.type === "DRINK"){
       return(<div className="py-3">
       {" "}
       <h6>
@@ -75,6 +71,24 @@ export default function Menu() {
     }
     })
   }
+  const toTalDrink = () =>{
+    let total = 0;
+    data.data.map((item,key)=>{  
+      if(item.type.type === "DRINK"){
+       total = item.type.product.length
+      }
+    })
+    return total
+  }
+  const toTalFood = () =>{
+    let total = 0;
+    data.data.map((item,key)=>{  
+      if(item.type.type === "FOOD"){
+       total = key+1;
+      }
+    })
+    return total
+  }
   return (
     <div className="py-5">
       <div className="title">
@@ -86,13 +100,13 @@ export default function Menu() {
       <div className="menu-content">
         <div className="row container">
           <div className="col-6">
-            <div className="menu-item">FOOD</div>
-            <div className="item">
+          <div className="menu-item">FOOD {toTalFood()}</div>
+            <div className="item">           
               {renderFood()}
             </div>
           </div>
           <div className="col-6">
-            <div className="menu-item drink">DRINK</div>
+            <div className="menu-item drink">DRINK {toTalDrink()}</div>
             <div className="item">
               {renderDrink()}
             </div>
@@ -100,7 +114,7 @@ export default function Menu() {
         </div>
         <div className="container">
           <div className="main-content">
-            MAIN
+            MAIN {toTalFood()}
           </div>
           <div className="row">
                 {renderMain()}
