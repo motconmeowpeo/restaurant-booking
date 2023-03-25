@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 import { getProduct } from "../../reducer/product/productSlice";
 import "./Order.css"
+import { addToCart } from "../../reducer/order/orderSlice";
 var curr = new Date();
 curr.setDate(curr.getDate());
 var dateStr = curr.toISOString().substring(0, 10);
@@ -94,6 +95,8 @@ function Order() {
 
     const [checkName, setCheckName] = useState(false)
     const [itemOrder, setItemOrder] = useState([]);
+    const cart = useSelector((state) => state.order)
+    console.log(cart.cartItem)
     const handelItem = (item) => {
 
         const newArr = [...itemOrder];
@@ -109,9 +112,11 @@ function Order() {
         }
         const arrStr = JSON.stringify(newArr)
         localStorage.setItem("item_order", arrStr)
-
     }
-
+    const handleAddToCart = (product, quanlity) => {
+        sessionStorage.setItem('quantity', quanlity)
+        dispatch(addToCart(product))
+    }
     return (<div className="order">
         <div className="order_container">
             <Link to="/" className="order_logo">
@@ -209,7 +214,11 @@ function Order() {
                                         <label onChange={() => { handelItem(item) }} className="food_check">
                                             <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
+
                                         </label>
+                                        <input type="number" className="input_quatity" defaultValue={1} min={1} onChange={(event) => handleAddToCart(item, event.target.value)
+                                        } />
+
                                     </li>
                                 )
                         })}
@@ -230,6 +239,9 @@ function Order() {
                                             <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
+                                        <input type="number" className="input_quatity" defaultValue={1} min={1} onChange={(event) => handleAddToCart(item, event.target.value)} />
+
+
                                     </li>
                                 )
                         })}
@@ -251,6 +263,8 @@ function Order() {
                                             <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
+                                        <input type="number" className="input_quatity" defaultValue={1} min={1} onChange={(event) => handleAddToCart(item, event.target.value)} />
+
                                     </li>
                                 )
                         })}
@@ -273,6 +287,8 @@ function Order() {
                                             <input key={item._id} type="checkbox" />
                                             <span className="checkmark"></span>
                                         </label>
+                                        <input type="number" className="input_quatity" defaultValue={1} min={1} onChange={(event) => handleAddToCart(item, event.target.value)} />
+
                                     </li>
                                 )
                         })}
@@ -311,6 +327,7 @@ function Order() {
                         }} placeholder="Email" />
                         <span className="message">{messageEmail}</span>
                         <button onClick={async () => {
+                            sessionStorage.clear()
                             await Swal.fire({
                                 icon: 'success',
                                 title: 'Your work has been saved',
@@ -323,6 +340,7 @@ function Order() {
                             disabled={!checkMail || !checkName || !checkPhone ? true : false}
                             className="detail_confirm">
                             Confirm
+
                         </button>
                     </div>
                     <div className="detail_info">
@@ -362,7 +380,15 @@ function Order() {
                                                 <h6>{item.name}</h6>
                                                 <span>{item.desc}</span>
                                                 <span>${item.price}</span>
+                                                {cart.cartItem.map((itemOd) => {
+
+                                                    if (itemOd._id === item._id)
+                                                        return (
+                                                            <span>Quantity:{itemOd.cartQuanlity}</span>
+                                                        )
+                                                })}
                                             </div>
+
 
                                         </li>
                                     )
